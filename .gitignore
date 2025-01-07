@@ -1,5 +1,6 @@
 node_modules
 yarn-error.log
+yarn.lock
 public/components/*/*.js.map
 public/components/*/*.js
 public/components/*/*.css
