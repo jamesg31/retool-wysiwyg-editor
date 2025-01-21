@@ -44,16 +44,12 @@ const LICENSE_KEY = 'GPL';
 
 export const MarkdownEditor: FC = () => {
     Retool.useComponentSettings({
-        defaultWidth: 12
+        defaultWidth: 12,
+		defaultHeight: 21
     })
 	const [value, setValue] = Retool.useStateString({
 		name: 'value',
         label: 'Default value'
-	})
-	const [_height, setHeight] = Retool.useStateNumber({
-		name: 'height',
-		label: 'Height',
-		initialValue: 1
 	})
     const [placeholder, _setPlaceholder] = Retool.useStateString({
         name: 'placeholder',
@@ -246,23 +242,6 @@ export const MarkdownEditor: FC = () => {
 			}
 		};
 	}, [isLayoutReady]);
-
-	useEffect(() => {
-		if (divRef.current) {
-			const resizeObserver = new ResizeObserver(entries => {
-				for (const entry of entries) {
-					const height = Math.round(entry.contentRect.height);
-					setHeight(height);
-				}
-			});
-
-			resizeObserver.observe(divRef.current);
-
-			return () => {
-				resizeObserver.disconnect();
-			};
-		}
-	}, []);
 
 	return (
 		<div className="main-container">

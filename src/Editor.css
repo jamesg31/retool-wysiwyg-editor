@@ -12,18 +12,21 @@
 	margin-left: auto;
 	margin-right: auto;
     min-width: 100%;
-	min-height: 120px;
-	max-height: 250px;
 }
 
 .ck-content {
 	font-family: 'Inter';
 	word-break: break-word;
 }
-.ck-editor__editable_inline {
-    min-height: 100%;
+.editor-container_markdown .ck-editor__editable_inline {
+    min-height: 118px;
+	max-height: 118px;
 }
 
+.editor-container_html .ck-editor__editable_inline {
+    min-height: 238px;
+	max-height: 238px;
+}
 
 p {
 	font-size: 12px;

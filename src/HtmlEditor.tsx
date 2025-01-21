@@ -241,7 +241,7 @@ export const HtmlEditor: FC = () => {
 
 	return (
 		<div className="main-container">
-			<div className="editor-container editor-container_classic-editor" ref={editorContainerRef}>
+			<div className="editor-container editor-container_classic-editor editor-container_html" ref={editorContainerRef}>
 				<div className="editor-container__editor">
 					<div ref={divRef}>
 						{editorConfig && (
