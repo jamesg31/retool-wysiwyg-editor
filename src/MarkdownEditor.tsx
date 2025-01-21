@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo, FC } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { Markdown, PasteFromMarkdownExperimental } from '@jamesg31/ckeditor5-markdown';
 import {
-    Markdown,
-    PasteFromMarkdownExperimental,
+    Underline,
 	ClassicEditor,
 	Autoformat,
 	AutoImage,
@@ -13,6 +13,8 @@ import {
 	CloudServices,
 	Essentials,
 	Heading,
+	HeadingButtonsUI,
+	ParagraphButtonUI,
 	ImageBlock,
 	ImageCaption,
 	ImageInline,
@@ -22,7 +24,6 @@ import {
 	ImageTextAlternative,
 	ImageToolbar,
 	ImageUpload,
-	Italic,
 	Link,
 	LinkImage,
 	List,
@@ -43,12 +44,16 @@ const LICENSE_KEY = 'GPL';
 
 export const MarkdownEditor: FC = () => {
     Retool.useComponentSettings({
-        defaultWidth: 12,
-        defaultHeight: 36
+        defaultWidth: 12
     })
 	const [value, setValue] = Retool.useStateString({
 		name: 'value',
         label: 'Default value'
+	})
+	const [_height, setHeight] = Retool.useStateNumber({
+		name: 'height',
+		label: 'Height',
+		initialValue: 1
 	})
     const [placeholder, _setPlaceholder] = Retool.useStateString({
         name: 'placeholder',
@@ -91,10 +96,16 @@ export const MarkdownEditor: FC = () => {
 			editorConfig: {
 				toolbar: {
 					items: [
-						'heading',
+						'paragraph',
+						'heading1',
+						'heading2',
+						'heading3',
+						'heading4',
+						'heading5',
+						'heading6',
 						'|',
 						'bold',
-						'italic',
+						'underline',
 						'|',
 						'link',
 						'blockQuote',
@@ -106,8 +117,9 @@ export const MarkdownEditor: FC = () => {
 					shouldNotGroupWhenFull: false
 				},
 				plugins: [
-                    Markdown,
-                    PasteFromMarkdownExperimental,
+					Markdown,
+					PasteFromMarkdownExperimental,
+					Underline,
 					Autoformat,
 					AutoImage,
 					Autosave,
@@ -117,6 +129,8 @@ export const MarkdownEditor: FC = () => {
 					CloudServices,
 					Essentials,
 					Heading,
+					HeadingButtonsUI,
+					ParagraphButtonUI,
 					ImageBlock,
 					ImageCaption,
 					ImageInline,
@@ -126,7 +140,6 @@ export const MarkdownEditor: FC = () => {
 					ImageTextAlternative,
 					ImageToolbar,
 					ImageUpload,
-					Italic,
 					Link,
 					LinkImage,
 					List,
@@ -136,7 +149,7 @@ export const MarkdownEditor: FC = () => {
 					TextTransformation,
 					TodoList
 				],
-				balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
+				balloonToolbar: ['bold', 'underline', '|', 'link', '|', 'bulletedList', 'numberedList'],
 				heading: {
 					options: [
 						{
@@ -216,14 +229,44 @@ export const MarkdownEditor: FC = () => {
 						reversed: true
 					}
 				},
-				placeholder: placeholder
+				placeholder: placeholder,
+				ui: {
+					poweredBy: {
+						position: 'inside' as const,
+					}
+				},
+				markdown: {
+					toView: {
+						em: 'u'
+					},
+					toData: {
+						u: '_'
+					}
+				}
 			}
 		};
 	}, [isLayoutReady]);
 
+	useEffect(() => {
+		if (divRef.current) {
+			const resizeObserver = new ResizeObserver(entries => {
+				for (const entry of entries) {
+					const height = Math.round(entry.contentRect.height);
+					setHeight(height);
+				}
+			});
+
+			resizeObserver.observe(divRef.current);
+
+			return () => {
+				resizeObserver.disconnect();
+			};
+		}
+	}, []);
+
 	return (
 		<div className="main-container">
-			<div className="editor-container editor-container_classic-editor" ref={editorContainerRef}>
+			<div className="editor-container editor-container_classic-editor editor-container_markdown" ref={editorContainerRef}>
 				<div className="editor-container__editor">
 					<div ref={divRef}>
 						{editorConfig && (

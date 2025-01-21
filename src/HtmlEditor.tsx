@@ -229,7 +229,12 @@ export const HtmlEditor: FC = () => {
 						reversed: true
 					}
 				},
-				placeholder: placeholder
+				placeholder: placeholder,
+				ui: {
+					poweredBy: {
+						position: 'inside' as const,
+					}
+				}
 			}
 		};
 	}, [isLayoutReady]);
