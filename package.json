@@ -5,7 +5,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.2.0",
     "@jamesg31/ckeditor5-markdown": "git+https://github.com/jamesg31/ckeditor5-markdown.git",
-    "@tryretool/custom-component-support": "latest",
+    "@tryretool/custom-component-support": "^1.5.0",
     "ckeditor5": "44.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -37,7 +37,7 @@
   "retoolCustomComponentLibraryConfig": {
     "name": "WYSIWYGEditor",
     "label": "WYSIWYG Editor",
-    "description": "A library of rich text editors for Retool",
+    "description": "A library containing a custom HTML and Markdown editor using CK-Editor 5.",
     "entryPoint": "src/index.tsx",
     "outputPath": "dist"
   }
